@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="../header.jsp">
 	<jsp:param value="User" name="HTMLtitle" />
 </jsp:include>
@@ -81,9 +83,11 @@
 						</c:forEach>
 					</div>
 				</c:if>
+				<sec:authorize access="hasRole('Administrator')">
 				<button id="createProduct" class="share-btn">Add Product</button>
+				</sec:authorize>
 			</div>
-
+			<sec:authorize access="hasRole('Administrator')">
 			<!-- Product Modal -->
 
 			<dialog id="createProductModal" class="modal">
@@ -165,6 +169,7 @@
 						document.querySelector("#createProductModal").close();
 						});
 					</script>
+			</sec:authorize>
 		</div>
 	</div>
 </main>

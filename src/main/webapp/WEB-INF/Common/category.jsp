@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="../header.jsp">
 	<jsp:param value="User" name="HTMLtitle" />
 </jsp:include>
@@ -72,8 +74,11 @@
 						</c:forEach>
 					</div>
 				</c:if>
-				<button id="createCategory" class="share-btn">Add Category</button>					
+				<sec:authorize access="hasRole('Administrator')">
+				<button id="createCategory" class="share-btn">Add Category</button>
+				</sec:authorize>					
 			</div>
+			<sec:authorize access="hasRole('Administrator')">			
 						<!-- Category Modal -->
 
 			<dialog id="createCategoryModal" class="modal">
@@ -113,7 +118,8 @@
 					document.querySelector("#closeCreateCategory").addEventListener("click", () => {
 						document.querySelector("#createCategoryModal").close();
 						});
-					</script>				
+					</script>
+			</sec:authorize>				
 		</div>
 	</div>
 </main>

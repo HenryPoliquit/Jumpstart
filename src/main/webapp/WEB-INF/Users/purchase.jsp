@@ -5,7 +5,7 @@
 </jsp:include>
 
 <main class="bg2 align-center flex-col">
-	<div class="flex dashboard">
+	<div class="flex dashboard align-center">
 		<!-- 1st Column -->
 		<div class="dashboard-left">
 			<div class="dashboard-left-column-links">
@@ -43,11 +43,12 @@
 			<div class="flex-col dashboard-right-column-content align-center">
 				<section class="align-center flex-col form-card">
 					<h3 class="form-heading">Purchase Form</h3>
-					<sf:form action="add_donation" class="align-center flex-col form"
+					<sf:form action="purchase_product" class="align-center flex-col form"
 						method="post" modelAttribute="purchase">
+						<input type="hidden" name="prodId"  value="${pId}" />
 						<div class="input-group">
 							<sf:input required="true" type="text" name="method"
-								autocomplete="off" path="method" class="input" />
+								autocomplete="off" path="method" class="input" id="method" />
 							<label class="user-label">Payment Method</label>
 						</div>
 						<div class="input-group">
@@ -59,7 +60,7 @@
 						<div class="input-group">
 							<sf:input required="true" type="text" name="count"
 								autocomplete="off" path="count" class="input"
-								id="donation-amount" />
+								id="count" />
 							<label class="user-label">Count</label>
 						</div>
 						<div class="input-group">
@@ -69,17 +70,11 @@
 							<label class="user-label">Amount</label>
 						</div>
 						<div class="input-group">
-							<sf:input required="true" type="text" name="intent"
-								autocomplete="off" value="sale" path="intent" class="input" />
-							<label class="user-label">Intent</label>
+							<sf:input required="true" type="text" name="location"
+								autocomplete="off" path="location" class="input" />
+							<label class="user-label">Location</label>
 						</div>
-						<div class="input-group">
-							<sf:input required="true" type="text" name="description"
-								autocomplete="off" path="description" class="input" />
-							<label class="user-label">Payment Description</label>
-						</div>
-
-						<button type="submit" class="submit-btn">Donate</button>
+						<button type="submit" class="submit-btn">Purchase</button>
 					</sf:form>
 					<a href="paypal"><button class="submit-btn">Pay with
 							PayPal</button></a>

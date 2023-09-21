@@ -75,7 +75,7 @@
 							<div class="card pFont">
 								<img class="card-image" src="${pPhotoImgPath}" alt="${pPhotos}" />
 								<a href="product_details?prodId=${pId}"><h4
-										class="card-heading">${pName}</h4></a>
+										class="card-heading link">${pName}</h4></a>
 								<h4 class="card-heading">$${pPrice}</h4>
 								<p class="card-desc">Count: ${pCount}</p>
 								<a class="text-center"><button class="dash-btn">Purchase</button></a>
