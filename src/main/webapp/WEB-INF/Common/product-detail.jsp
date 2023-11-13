@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="../header.jsp">
 	<jsp:param value="User" name="HTMLtitle" />
 </jsp:include>
@@ -83,11 +85,41 @@
 							<p class="pFont">Items available: ${pStock} items</p>
 						</div>
 						<div class="button-holder center">
-							<a href="purchase?prodId=${pId}"><button class="share-btn">Purchase</button></a>
-							<sf:form method="post" action="add_to_cart" target="dummyframe">
-								<input type="hidden" name="prodId"  value="${pId}" />
-								<button class="dash-btn" type="submit">Add to Cart</button>
-							</sf:form>
+							<sec:authorize access="hasRole('Users')">
+								<a href="purchase?prodId=${pId}"><button class="share-btn">Purchase</button></a>
+								<sf:form method="post" action="add_to_cart" target="dummyframe">
+									<input type="hidden" name="prodId" value="${pId}" />
+									<button class="dash-btn" type="submit">Add to Cart</button>
+								</sf:form>
+							</sec:authorize>
+							<sec:authorize access="hasRole('Sales')">
+								<button id="editProduct" class="share-btn">Update Stock</button>
+								<!-- Update Stock Modal -->
+
+								<dialog id="editProductModal" class="modal">
+
+								<div class="align-center error-popup">
+									<span class="material-icons">error</span>
+									<p id="error-text" class="pFont error-text"></p>
+									<button class="btnAnimation icon material-icons"
+										onclick="closeFormError()">close</button>
+								</div>
+
+								<h3 class="modal-heading">Update Stock</h3>
+								<sf:form id="editProductForm" class="align-center flex-col form"
+									onsubmit="validateEditProduct(event)" action="update_stock?prodId=${pId}"
+									method="post" modelAttribute="stock">
+									<div class="input-group">
+										<input required="true" type="text" name="stock" path="stock"
+											autocomplete="off" class="input" /> <label
+											class="user-label">Stock</label>
+									</div>
+									<button class="submit-btn btnAnimation"
+										style="background-color: var(- -success);" type="submit">Save</button>
+								</sf:form>
+								<button id="closeEditProduct" class="material-icons modal-close">close</button>
+								</dialog>
+							</sec:authorize>
 						</div>
 					</div>
 				</div>
@@ -95,28 +127,27 @@
 			<div class="flex-col dashboard-right-column-content">
 				<h3 class="dashboard-heading">Related Products</h3>
 				<c:if test="${empty related}">
-					<h4 class="">No related products found</h4>
+					<h4 class="dashboard-heading">No related products found</h4>
 				</c:if>
 				<c:if test="${not empty related}">
 					<div class="flex-wrap card-container justify-evenly">
 						<c:forEach items="${related}" var="r">
-							<c:set var="rpId" value="${r.id}"></c:set>
-							<c:set var="rpName" value="${r.name}"></c:set>
-							<c:set var="rpDescription" value="${r.description}"></c:set>
-							<c:set var="rpPrice" value="${r.price}"></c:set>
-							<c:set var="rpSales" value="${r.sales}"></c:set>
-							<c:set var="rpStock" value="${r.stock}"></c:set>
-							<c:set var="rpPhotos" value="${r.photos}"></c:set>
-							<c:set var="rpPhotoImgPath" value="${r.photoImagePath}"></c:set>
-							<c:if test="${rpId ne pId}">
+							<c:set var="rId" value="${r.id}"></c:set>
+							<c:set var="rName" value="${r.name}"></c:set>
+							<c:set var="rDescription" value="${r.description}"></c:set>
+							<c:set var="rPrice" value="${r.price}"></c:set>
+							<c:set var="rSales" value="${r.sales}"></c:set>
+							<c:set var="rStock" value="${r.stock}"></c:set>
+							<c:set var="rPhotos" value="${r.photos}"></c:set>
+							<c:set var="rPhotoImgPath" value="${r.photoImagePath}"></c:set>
+							<c:if test="${rName ne pName == true}">
 								<div class="card pFont">
-									<img class="card-image" src="${rpPhotoImgPath}"
-										alt="${rpPhotos}" />
-									<h4 class="card-heading">${rpName}</h4>
-									<h4 class="card-heading">$${rpPrice}</h4>
-									<p class="card-desc">${rpSales}Sold</p>
-									<p class="card-desc">${rpStock}available</p>
-									<a href="product_details?prodId=${rpId}" class="text-center"><button
+									<img class="card-image" src="${rPhotoImgPath}" alt="${rPhotos}" />
+									<h4 class="card-heading">${rName}</h4>
+									<h4 class="card-heading">$${rPrice}</h4>
+									<p class="card-desc">${rSales}Sold</p>
+									<p class="card-desc">${rStock}available</p>
+									<a href="product_details?prodId=${rId}" class="text-center"><button
 											class="dash-btn">View</button></a>
 								</div>
 							</c:if>
@@ -126,7 +157,7 @@
 			</div>
 		</div>
 	</div>
-	<iframe name="dummyframe" id="dummyframe" style="display:none;"></iframe>
+	<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
 </main>
 
 <jsp:include page="../footer.jsp"></jsp:include>

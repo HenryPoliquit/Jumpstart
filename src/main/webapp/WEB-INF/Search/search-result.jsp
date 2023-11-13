@@ -43,7 +43,7 @@
 						<c:if test="${address != null}">
 							<p class="pFont">${address}</p>
 						</c:if>
-							<c:if test="${address == null}">
+						<c:if test="${address == null}">
 							<p class="pFont">No address set</p>
 						</c:if>
 					</div>
@@ -55,13 +55,16 @@
 		<!-- 2nd Column -->
 		<div class="flex-col gap-20">
 			<div class="flex-col dashboard-right-column-content align-center">
-				<h3 class="dashboard-heading">Most Popular</h3>
-				<c:if test="${empty popular}">
-					<h4 class="">No products found</h4>
+				<jsp:include page="./search-link.jsp"></jsp:include>
+				<!-- Search Results -->
+				<c:if test="${empty searchProduct}">
+					<h4 class="">No Products Found</h4>
 				</c:if>
-				<c:if test="${not empty popular}">
+
+				<c:if test="${not empty searchProduct}">
+					<c:set var="count" value="0" scope="page" />
 					<div class="flex-wrap card-container justify-evenly">
-						<c:forEach items="${popular}" var="p">
+						<c:forEach items="${searchProduct}" var="p">
 							<c:set var="pId" value="${p.id}"></c:set>
 							<c:set var="pName" value="${p.name}"></c:set>
 							<c:set var="pDescription" value="${p.description}"></c:set>
@@ -70,38 +73,28 @@
 							<c:set var="pStock" value="${p.stock}"></c:set>
 							<c:set var="pPhotos" value="${p.photos}"></c:set>
 							<c:set var="pPhotoImgPath" value="${p.photoImagePath}"></c:set>
+							<c:set var="cName" value="${p.getCategory().getName()}"></c:set>
+							<c:if test="${pName ne keyword == true}">
+								<c:set var="count" scope="page" value="${count + 1}" />
 								<div class="card pFont">
-									<img class="card-image" src="${pPhotoImgPath}"
-										alt="${pPhotos}" />
+									<img class="card-image" src="${pPhotoImgPath}" alt="${pPhotos}" />
 									<h4 class="card-heading">${pName}</h4>
+									<a href="category_details?catId=${cId}" class="card-desc link">${cName}</a>
 									<h4 class="card-heading">$${pPrice}</h4>
-									<p class="card-desc">${pSales} Sold</p>
-									<p class="card-desc">${pStock} available</p>									
-									<a href="product_details?prodId=${pId}" class="text-center"><button class="dash-btn">View</button></a>
+									<p class="card-desc">${pSales}Sold</p>
+									<p class="card-desc">${pStock}available</p>
+									<a href="product_details?prodId=${pId}" class="text-center"><button
+											class="dash-btn">View</button></a>
 								</div>
+							</c:if>
+							<c:if test="${count == 0}">
+								<h4 class="dashboard-heading"
+									style="margin-bottom: 0rem; text-align: center;">No
+									Products Found</h4>
+							</c:if>
 						</c:forEach>
-					</div>						
+					</div>
 				</c:if>
-				<a href="product"><button class="share-btn">View All Products</button></a>				
-			</div>
-			<div class="flex-col dashboard-right-column-content align-center">
-				<h3 class="dashboard-heading">Categories</h3>
-				<c:if test="${empty recent}">
-					<h4 class="">No categories found</h4>
-				</c:if>
-				<c:if test="${not empty recent}">
-					<div class="flex-wrap card-container justify-evenly">				
-						<c:forEach items="${recent}" var="c">
-							<c:set var="cId" value="${c.id}"></c:set>
-							<c:set var="cName" value="${c.name}"></c:set>
-							<c:set var="cDesc" value="${c.description}"></c:set>
-							<a href="category_details?catId=${cId}" class="card pFont center"><div>
-								<h4 class="card-heading text-center">${cName}</h4>
-							</div></a>
-						</c:forEach>
-					</div>					
-				</c:if>
-				<a href="category"><button class="share-btn">View All Categories</button></a>						
 			</div>
 		</div>
 	</div>

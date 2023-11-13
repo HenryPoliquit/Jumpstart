@@ -44,10 +44,10 @@
 							<a href="profile">${name}</a>
 						</h3>
 						<c:if test="${address != null}">
-							<p>${address}</p>
+							<p class="pFont">${address}</p>
 						</c:if>
 							<c:if test="${address == null}">
-							<p>No address set</p>
+							<p class="pFont">No address set</p>
 						</c:if>
 					</div>
 				</div>

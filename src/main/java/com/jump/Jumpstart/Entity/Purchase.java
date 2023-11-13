@@ -1,5 +1,9 @@
 package com.jump.Jumpstart.Entity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+
+import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 public class Purchase {
@@ -24,7 +31,7 @@ public class Purchase {
 	@JoinColumn(name = "product_id")
 	private Product product;
 	
-	private double total;
+	private double amount;
 	
 	private String currency;
 	
@@ -39,19 +46,29 @@ public class Purchase {
 	private String code;
 	
 	private boolean ordStatus;
+	
+	@CreatedDate
+	private String date;
+
+	@PrePersist
+	private void onCreate() {
+		DateFormat dateOnly = new SimpleDateFormat("dd MMMMM yyyy HH:mm");
+
+		date = dateOnly.format(new Date());
+	}	
 
 	public Purchase() {
 		super();
 	}
 
-	public Purchase(Long id, int count, User user, Product product, double total, String currency, String description,
-			String method, String intent, String location, String code, boolean ordStatus) {
+	public Purchase(Long id, int count, User user, Product product, double amount, String currency, String description,
+			String method, String intent, String location, String code, boolean ordStatus, String date) {
 		super();
 		this.id = id;
 		this.count = count;
 		this.user = user;
 		this.product = product;
-		this.total = total;
+		this.amount = amount;
 		this.currency = currency;
 		this.description = description;
 		this.method = method;
@@ -59,6 +76,7 @@ public class Purchase {
 		this.location = location;
 		this.code = code;
 		this.ordStatus = ordStatus;
+		this.date = date;
 	}
 
 	public Long getId() {
@@ -93,12 +111,12 @@ public class Purchase {
 		this.product = product;
 	}
 
-	public double getTotal() {
-		return total;
+	public double getAmount() {
+		return amount;
 	}
 
-	public void setTotal(double total) {
-		this.total = total;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 	public String getMethod() {
@@ -155,5 +173,13 @@ public class Purchase {
 
 	public void setIntent(String intent) {
 		this.intent = intent;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 }

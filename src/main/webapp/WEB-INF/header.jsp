@@ -20,6 +20,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap"
 	rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 	crossorigin="anonymous"></script>
@@ -55,7 +56,7 @@
 					<li><a href="cart">Cart</a></li>					
 					</sec:authorize>
 					<sec:authorize access="hasRole('Sales')">
-					<li><a href="cart">Order Status</a></li>						
+					<li><a href="manage_purchase">Order Status</a></li>						
 					</sec:authorize>
 					<sec:authorize access="hasRole('Administrator')">
 					<li><a href="product">Add Product</a></li>						
@@ -98,8 +99,7 @@
 					</sec:authorize>
 					<sec:authorize access="hasRole('Sales')">
 						<li><a href="dashboard">Dashboard</a></li>
-						<li><a href="all_posts">Order Status</a></li>
-						<li><a href="all_threads">Product Management</a></li>
+						<li><a href="order_status">Order Status</a></li>
 						<li><a href="search">Search</a></li>
 						<li><a href="profile">Profile</a></li>
 					</sec:authorize>

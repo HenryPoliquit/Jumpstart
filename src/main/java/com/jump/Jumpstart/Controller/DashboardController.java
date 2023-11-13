@@ -96,12 +96,28 @@ public class DashboardController {
 		model.addAttribute("user", user);
 		model.addAttribute("recent", recent);
 		model.addAttribute("popular", popular);
-		model.addAttribute("user", user);
 		
 		System.out.println("Logged in as User");
 	}
 	
 	public void salesDashboard(Model model, Principal principal) {
+		String username = principal.getName();
 
+		User userdata = userService.findLoginUser(username);
+		
+		List<User> user = new ArrayList<User>();
+		user.add(userdata);
+		
+		List<Category> category = catService.getAllCategorys();
+		List<Category> recent = category.subList(Math.max(category.size() - 5, 0), category.size());
+		
+		List<Product> product = prodService.getAllProducts();
+		List<Product> popular = product.subList(Math.max(product.size() - 12, 0), product.size());
+		
+		model.addAttribute("user", user);
+		model.addAttribute("recent", recent);
+		model.addAttribute("popular", popular);
+		
+		System.out.println("Logged in as Sales");
 	}
 }

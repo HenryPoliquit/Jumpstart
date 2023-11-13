@@ -19,9 +19,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.jump.Jumpstart.Entity.About;
+import com.jump.Jumpstart.Entity.Cart;
+import com.jump.Jumpstart.Entity.Purchase;
 import com.jump.Jumpstart.Entity.Role;
 import com.jump.Jumpstart.Entity.User;
+import com.jump.Jumpstart.Service.AboutService;
+import com.jump.Jumpstart.Service.CartService;
 import com.jump.Jumpstart.Service.EmailSenderService;
+import com.jump.Jumpstart.Service.PurchaseService;
 import com.jump.Jumpstart.Service.UserService;
 import com.jump.Jumpstart.Utility.Utility;
 
@@ -33,6 +39,15 @@ public class LoginController {
 
 	@Autowired
 	EmailSenderService emailSender;
+	
+	@Autowired
+	PurchaseService purchService;
+	
+	@Autowired
+	CartService cartService;
+	
+	@Autowired
+	AboutService aboutService;
 
 	@GetMapping("login")
 	public String onLogin() {
@@ -270,6 +285,21 @@ public class LoginController {
 	}
 
 	public void usersProfile(Model model, Principal principal) {
+		String userName = principal.getName();
+
+		User user = userService.findLoginUser(userName);
+	
+		List<Purchase> purchases = purchService.getAllPurchases();
+		List<Purchase> purchase = purchases.subList(Math.max(purchases.size() - 12, 0), purchases.size());
+		List<Cart> allCart = cartService.getAllCarts();
+		List<Cart> cart = allCart.subList(Math.max(allCart.size() - 7, 0), allCart.size());
+		List<About> about = aboutService.findByUser(user);
+ 
+		
+		model.addAttribute("cart", cart);
+		model.addAttribute("purchases", purchase);
+		model.addAttribute("summary", about);
+		
 		System.out.println("View profile as User");
 	}
 	
@@ -297,15 +327,20 @@ public class LoginController {
 		return "redirect:profile";
 	}
 	
-	@GetMapping("view_profile")
-	public String viewOtherProfile(@RequestParam long uId, Model model, Principal principal) {
-		
-		User userdata = userService.findSpecificUser(uId);
-		List<User> user = new ArrayList<User>();
-		user.add(userdata);
-		
-		model.addAttribute("user", user);
-		
-		return "Common/view-profile";
+	@PostMapping("update-about")
+	public String updateAbout(Principal principal, @ModelAttribute("about") About about, RedirectAttributes redir) {
+		String userName = principal.getName();
+
+		User user = userService.findLoginUser(userName);
+
+		about.setUser(user);
+
+		aboutService.save(about);
+
+		String success_msg = "About has been updated";
+
+		redir.addFlashAttribute("success_msg", success_msg);
+
+		return "redirect:profile";
 	}
 }

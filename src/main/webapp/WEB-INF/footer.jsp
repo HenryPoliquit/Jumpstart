@@ -86,3 +86,8 @@
 </body>
 <script type="text/javascript" src="js/form-validation.js"></script>
 <script type="text/javascript" src="js/nav-menu.js"></script>
+<script type="text/javascript" src="js/about.js"></script>
+<script type="text/javascript" src="js/search.js"></script>
+<script type="text/javascript" src="js/stock.js"></script>
+
+</html>

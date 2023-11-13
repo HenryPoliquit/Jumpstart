@@ -9,7 +9,7 @@
 			height="300" />
 		<p class="hFont text-align-center">Purchase has been successfully placed</p>
 		<p class="hFont text-align-center">Your code for pickup is: ${code}</p>
-		<a href="ongoing-orders" class="btnAnimation pFont text-deco-none">Click
+		<a href="purchase-history" class="btnAnimation pFont text-deco-none">Click
 			here to view your purchase</a>
 	</div>
 

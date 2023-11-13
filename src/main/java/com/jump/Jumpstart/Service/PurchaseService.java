@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.jump.Jumpstart.Entity.Purchase;
+import com.jump.Jumpstart.Entity.User;
 import com.jump.Jumpstart.Repository.PurchaseRepository;
 
 @Service
@@ -34,8 +35,15 @@ public class PurchaseService {
 	public void deletePurchase(long purchId) {
 		purchRepo.deleteById(purchId);
 	}
+	public void deleteAllPurchase(List<Purchase> list) {
+		purchRepo.deleteAll(list);
+	}
+	
 	public Optional<Purchase> getPurchaseInfo(long purchId){
 		
 		return purchRepo.findById(purchId);
-	}	
+	}
+	public List<Purchase> getMyPurchase(User user) {
+		return purchRepo.findByUser(user);
+	}
 }

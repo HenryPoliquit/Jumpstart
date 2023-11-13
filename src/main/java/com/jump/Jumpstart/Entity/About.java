@@ -20,19 +20,16 @@ public class About {
 	private User user;
 	
 	private String summary;
-	
-	private String date;
 
 	public About() {
 		super();
 	}
 
-	public About(Long id, User user, String summary, String date) {
+	public About(Long id, User user, String summary) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.summary = summary;
-		this.date = date;
 	}
 
 	public Long getId() {
@@ -57,14 +54,6 @@ public class About {
 
 	public void setSummary(String summary) {
 		this.summary = summary;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
 	}
 	
 }

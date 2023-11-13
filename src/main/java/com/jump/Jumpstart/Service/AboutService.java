@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.jump.Jumpstart.Entity.About;
+import com.jump.Jumpstart.Entity.User;
 import com.jump.Jumpstart.Repository.AboutRepository;
 
 @Service
@@ -37,5 +38,9 @@ public class AboutService {
 	public Optional<About> getAboutInfo(long aId){
 		
 		return AboutRepo.findById(aId);
-	}	
+	}
+	
+	public List<About>findByUser(User user) {
+		return AboutRepo.findByUser(user);
+	}
 }

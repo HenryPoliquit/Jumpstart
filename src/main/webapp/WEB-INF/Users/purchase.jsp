@@ -44,7 +44,7 @@
 				<section class="align-center flex-col form-card">
 					<h3 class="form-heading">Purchase Form</h3>
 					<sf:form action="purchase_product" class="align-center flex-col form"
-						method="post" modelAttribute="purchase">
+						method="post" modelAttribute="purchase" id="purchase">
 						<input type="hidden" name="prodId"  value="${pId}" />
 						<div class="input-group">
 							<sf:input required="true" type="text" name="method"
@@ -64,10 +64,9 @@
 							<label class="user-label">Count</label>
 						</div>
 						<div class="input-group">
-							<sf:input required="true" type="text" name="total"
-								autocomplete="off" path="total" class="input"
-								id="donation-amount" />
-							<label class="user-label">Amount</label>
+							<input required="true" type="text" value="${pPrice}"
+								class="input" />
+							<label class="user-label">Price</label>
 						</div>
 						<div class="input-group">
 							<sf:input required="true" type="text" name="location"
@@ -76,7 +75,7 @@
 						</div>
 						<button type="submit" class="submit-btn">Purchase</button>
 					</sf:form>
-					<a href="paypal"><button class="submit-btn">Pay with
+					<a href="paypal?prodId=${pId}"><button class="submit-btn">Pay with
 							PayPal</button></a>
 				</section>
 			</div>

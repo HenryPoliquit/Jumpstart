@@ -35,6 +35,9 @@ public class ProductService {
 	public void deleteProduct(long prodId) {
 		prodRepo.deleteById(prodId);
 	}
+	public void deleteAllProduct(List<Product> list) {
+		prodRepo.deleteAll(list);
+	}
 	public Optional<Product> getProductInfo(long prodId){
 		
 		return prodRepo.findById(prodId);
@@ -42,5 +45,13 @@ public class ProductService {
 	
 	public List<Product> getSpecificProduct(Category category) {
 		return prodRepo.findByCategory(category);
-	}	
+	}
+	
+	public List<Product> searchByName(String keyword) {
+		return prodRepo.searchByName(keyword);
+	}
+	
+	public List<Product> searchByDesc(String keyword) {
+		return prodRepo.searchByDescription(keyword);
+	}
 }

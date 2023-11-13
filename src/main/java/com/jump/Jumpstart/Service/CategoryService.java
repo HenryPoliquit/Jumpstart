@@ -37,5 +37,8 @@ public class CategoryService {
 	public Optional<Category> getCategoryInfo(long catId){
 		
 		return catRepo.findById(catId);
-	}	
+	}
+	public List<Category> searchByName(String keyword) {
+		return catRepo.searchByName(keyword);
+	}
 }
